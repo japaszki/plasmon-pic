@@ -122,9 +122,6 @@ class particle:
         
         vx_half, vz_half = self.p_to_v(px_half, pz_half, constants)
         
-#        vx_half = vx + q*dt/(2*m)*Ex_loc
-#        vz_half = vz + q*dt/(2*m)*Ez_loc
-        
         #full step of magnetic force using half step velocity, 
         #half step of electric force
         #note directions wrt cross product vxB!
@@ -132,10 +129,7 @@ class particle:
         pz_next = pz_half + q*dt*vx_half*By_loc + 0.5*q*dt*Ez_loc
         
         vx_next, vz_next = self.p_to_v(px_next, pz_next, constants)
-        
-#        vx_next = vx_half - q*dt/m*vz_half*By_loc + q*dt/(2*m)*Ex_loc
-#        vz_next = vz_half + q*dt/m*vx_half*By_loc + q*dt/(2*m)*Ez_loc
-#        
+         
         self.vx.append(vx_next)
         self.vz.append(vz_next)
         
@@ -218,18 +212,8 @@ class particle:
         x_index_frac = x_index - x_index_int
         z_index_frac = z_index - z_index_int
         
-        rho_tot = q / (dx * dy * dz)
-#        rho_hix_hiz = rho_tot * x_index_frac * z_index_frac
-#        rho_lowx_hiz = rho_tot * (1-x_index_frac) * z_index_frac
-#        rho_hix_lowz = rho_tot * x_index_frac * (1-z_index_frac)
-#        rho_lowx_lowz =  rho_tot * (1-x_index_frac) * (1-z_index_frac)
-        
+        rho_tot = q / (dx * dy * dz)        
         rho = np.zeros((params.Nx, params.Nz), dtype=float)
-        
-#        rho[x_index_int, z_index_int] = rho_lowx_lowz
-#        rho[x_index_int, z_index_int+1] = rho_lowx_hiz
-#        rho[x_index_int+1, z_index_int] = rho_hix_lowz
-#        rho[x_index_int+1, z_index_int+1] = rho_hix_hiz
         
         #Assign relative charge density using 2D Gaussian:
         
